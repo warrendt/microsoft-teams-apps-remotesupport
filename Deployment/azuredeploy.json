@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "baseResourceName": {
@@ -72,30 +72,6 @@
         "description": "Unique key use to create Symmetric security key for generating custom JWT for client authentication"
       }
     },
-    "sku": {
-      "type": "string",
-      "allowedValues": [
-        "Basic",
-        "Standard",
-        "Premium"
-      ],
-      "defaultValue": "Standard",
-      "metadata": {
-        "description": "The pricing tier for the hosting plan."
-      }
-    },
-    "planSize": {
-      "type": "string",
-      "allowedValues": [
-        "1",
-        "2",
-        "3"
-      ],
-      "defaultValue": "1",
-      "metadata": {
-        "description": "The size of the hosting plan (small, medium, or large)."
-      }
-    },
     "location": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
@@ -161,24 +137,6 @@
         "name": "Standard_LRS"
       },
       "type": "Microsoft.Storage/storageAccounts"
-    },
-    {
-      "apiVersion": "2016-09-01",
-      "location": "[parameters('location')]",
-      "name": "[variables('hostingPlanName')]",
-      "properties": {
-        "name": "[variables('hostingPlanName')]",
-        "hostingEnvironment": "",
-        "numberOfWorkers": 1
-      },
-      "sku": {
-        "name": "[if(variables('isSharedPlan'), concat(variables('skuFamily'),'1'), concat(variables('skuFamily'),parameters('planSize')))]",
-        "tier": "[parameters('sku')]",
-        "size": "[concat(variables('skuFamily'), parameters('planSize'))]",
-        "family": "[variables('skuFamily')]",
-        "capacity": 0
-      },
-      "type": "Microsoft.Web/serverfarms"
     },
     {
       "apiVersion": "2016-08-01",
