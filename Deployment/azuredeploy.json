@@ -9,6 +9,13 @@
         "description": "The base name to use for the resources that will be provisioned."
       }
     },
+    "appplanName": {
+      "type": "string",
+      "minLength": 1,
+      "metadata": {
+        "description": "The name of the existing app plan in the ASE to use"
+      }
+    },
     "botClientId": {
       "type": "string",
       "minLength": 36,
@@ -111,7 +118,7 @@
     "botAppName": "[parameters('baseResourceName')]",
     "botAppDomain": "[concat(variables('botAppName'), '.azurewebsites.net')]",
     "botAppUrl": "[concat('https://', variables('botAppDomain'))]",
-    "hostingPlanName": "[parameters('baseResourceName')]",
+    "hostingPlanName": "[parameters('appplanName')]",
     "storageAccountName": "[variables('uniqueString')]",
     "azureSearchName": "[concat('search-', variables('uniqueString'))]",
     "azureSearchSkus": {
@@ -141,7 +148,6 @@
     {
       "apiVersion": "2016-08-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
         "[resourceId('Microsoft.Search/searchServices/', variables('azureSearchName'))]",
         "[resourceId('Microsoft.Insights/components/', variables('botAppInsightsName'))]"
